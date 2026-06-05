@@ -1,0 +1,82 @@
+{
+  "username": "MagnusCarlsen",
+  "games_analyzed": 5,
+  "avg_score": 11.52,
+  "max_score": 15.7,
+  "min_score": 8.1,
+  "clean_games": 5,
+  "suspicious_games": 0,
+  "cheating_games": 0,
+  "overall_verdict": "clean",
+  "feature_averages": {
+    "Avg centipawn loss": 0.5,
+    "Engine top-1 match": 0.0,
+    "Engine top-3 match": 0.0,
+    "Critical position accuracy": 5.78,
+    "Blunder absence": 35.12,
+    "Move time consistency": 52.54,
+    "CPL distribution": 11.6
+  },
+  "games": [
+    {
+      "id": 5,
+      "game_id": "MagnusCarlsen_Resentiment18_20260529_-",
+      "username": "magnuscarlsen",
+      "platform": "chesscom",
+      "color": "white",
+      "overall_score": 11.1,
+      "verdict": "clean",
+      "features": "[{\"name\": \"Avg centipawn loss\", \"score\": 0.8, \"note\": \"ACPL=10.4  (expected ~6 for this rating/TC)\"}, {\"name\": \"Engine top-1 match\", \"score\": 0.0, \"note\": \"Top-1=43.6%  (expected ~82% for rating)\"}, {\"name\": \"Engine top-3 match\", \"score\": 0, \"note\": \"Top-3=74.4%  (GMs average ~88-92%)\"}, {\"name\": \"Critical position accuracy\", \"score\": 12.2, \"note\": \"Engine-perfect in 72% of balanced positions\"}, {\"name\": \"Blunder absence\", \"score\": 50.0, \"note\": \"0 blunders in 39 moves (0.0%)\"}, {\"name\": \"Move time consistency\", \"score\": 12.0, \"note\": \"Time CV=0.44  (humans ~0.8-2.0, engines ~0.1-0.3)\"}, {\"name\": \"CPL distribution\", \"score\": 25.0, \"note\": \"51.28% perfect moves, zero blunders | CV=1.59 perfect=51.28%\"}]",
+      "flagged_moves": "[]",
+      "created_at": "2026-06-05 22:47:38"
+    },
+    {
+      "id": 4,
+      "game_id": "Floatingdream1_MagnusCarlsen_20260603_-",
+      "username": "magnuscarlsen",
+      "platform": "chesscom",
+      "color": "black",
+      "overall_score": 8.1,
+      "verdict": "clean",
+      "features": "[{\"name\": \"Avg centipawn loss\", \"score\": 0.3, \"note\": \"ACPL=37.6  (expected ~6 for this rating/TC)\"}, {\"name\": \"Engine top-1 match\", \"score\": 0.0, \"note\": \"Top-1=45.5%  (expected ~82% for rating)\"}, {\"name\": \"Engine top-3 match\", \"score\": 0, \"note\": \"Top-3=77.3%  (GMs average ~88-92%)\"}, {\"name\": \"Critical position accuracy\", \"score\": 0, \"note\": \"Engine-perfect in 53% of balanced positions\"}, {\"name\": \"Blunder absence\", \"score\": 13.6, \"note\": \"2 blunders in 44 moves (4.5%)\"}, {\"name\": \"Move time consistency\", \"score\": 61.0, \"note\": \"Time CV=0.20  (humans ~0.8-2.0, engines ~0.1-0.3)\"}, {\"name\": \"CPL distribution\", \"score\": 0.0, \"note\": \"normal distribution | CV=2.76 perfect=36.36%\"}]",
+      "flagged_moves": "[]",
+      "created_at": "2026-06-05 22:46:51"
+    },
+    {
+      "id": 3,
+      "game_id": "MagnusCarlsen_Floatingdream1_20260603_-",
+      "username": "magnuscarlsen",
+      "platform": "chesscom",
+      "color": "white",
+      "overall_score": 12.0,
+      "verdict": "clean",
+      "features": "[{\"name\": \"Avg centipawn loss\", \"score\": 0.4, \"note\": \"ACPL=18.5  (expected ~6 for this rating/TC)\"}, {\"name\": \"Engine top-1 match\", \"score\": 0.0, \"note\": \"Top-1=61.8%  (expected ~82% for rating)\"}, {\"name\": \"Engine top-3 match\", \"score\": 0, \"note\": \"Top-3=80.0%  (GMs average ~88-92%)\"}, {\"name\": \"Critical position accuracy\", \"score\": 11.6, \"note\": \"Engine-perfect in 71% of balanced positions\"}, {\"name\": \"Blunder absence\", \"score\": 35.5, \"note\": \"1 blunders in 55 moves (1.8%)\"}, {\"name\": \"Move time consistency\", \"score\": 40.5, \"note\": \"Time CV=0.30  (humans ~0.8-2.0, engines ~0.1-0.3)\"}, {\"name\": \"CPL distribution\", \"score\": 18.0, \"note\": \"54.55% perfect moves, very few blunders (1.82%) | CV=2.5 perfect=54.55%\"}]",
+      "flagged_moves": "[]",
+      "created_at": "2026-06-05 22:45:48"
+    },
+    {
+      "id": 2,
+      "game_id": "Prime-Fisher1_MagnusCarlsen_20260603_-",
+      "username": "magnuscarlsen",
+      "platform": "chesscom",
+      "color": "black",
+      "overall_score": 10.7,
+      "verdict": "clean",
+      "features": "[{\"name\": \"Avg centipawn loss\", \"score\": 0.4, \"note\": \"ACPL=19.5  (expected ~6 for this rating/TC)\"}, {\"name\": \"Engine top-1 match\", \"score\": 0.0, \"note\": \"Top-1=58.8%  (expected ~82% for rating)\"}, {\"name\": \"Engine top-3 match\", \"score\": 0, \"note\": \"Top-3=85.3%  (GMs average ~88-92%)\"}, {\"name\": \"Critical position accuracy\", \"score\": 5.1, \"note\": \"Engine-perfect in 68% of balanced positions\"}, {\"name\": \"Blunder absence\", \"score\": 26.5, \"note\": \"1 blunders in 34 moves (2.9%)\"}, {\"name\": \"Move time consistency\", \"score\": 67.7, \"note\": \"Time CV=0.16  (humans ~0.8-2.0, engines ~0.1-0.3)\"}, {\"name\": \"CPL distribution\", \"score\": 0.0, \"note\": \"normal distribution | CV=2.15 perfect=50.0%\"}]",
+      "flagged_moves": "[]",
+      "created_at": "2026-06-05 22:44:40"
+    },
+    {
+      "id": 1,
+      "game_id": "MagnusCarlsen_Prime-Fisher1_20260603_-",
+      "username": "magnuscarlsen",
+      "platform": "chesscom",
+      "color": "white",
+      "overall_score": 15.7,
+      "verdict": "clean",
+      "features": "[{\"name\": \"Avg centipawn loss\", \"score\": 0.6, \"note\": \"ACPL=13.8  (expected ~6 for this rating/TC)\"}, {\"name\": \"Engine top-1 match\", \"score\": 0.0, \"note\": \"Top-1=57.1%  (expected ~82% for rating)\"}, {\"name\": \"Engine top-3 match\", \"score\": 0, \"note\": \"Top-3=81.0%  (GMs average ~88-92%)\"}, {\"name\": \"Critical position accuracy\", \"score\": 0, \"note\": \"Engine-perfect in 59% of balanced positions\"}, {\"name\": \"Blunder absence\", \"score\": 50.0, \"note\": \"0 blunders in 21 moves (0.0%)\"}, {\"name\": \"Move time consistency\", \"score\": 81.5, \"note\": \"Time CV=0.09  (humans ~0.8-2.0, engines ~0.1-0.3)\"}, {\"name\": \"CPL distribution\", \"score\": 15.0, \"note\": \"zero blunders | CV=1.25 perfect=42.86%\"}]",
+      "flagged_moves": "[]",
+      "created_at": "2026-06-05 22:43:48"
+    }
+  ]
+}
