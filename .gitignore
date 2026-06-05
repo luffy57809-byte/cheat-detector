@@ -1,0 +1,18 @@
+# Stockfish binaries
+stockfish/stockfish-ubuntu-x86-64-avx2
+stockfish-ubuntu-x86-64-avx2.tar
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Database and exports
+cheat_detector.db
+*.csv
+*.json
+*.pgn
+
+# Checkpoints
+.checkpoints/
