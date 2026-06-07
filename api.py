@@ -84,3 +84,47 @@ def _avg_features(reports):
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+from chess_detector.fetcher import fetch_games
+from chess_detector.batch import batch_analyze
+
+@app.post("/analyze-player")
+async def analyze_player(
+    username: str = Form(...),
+    platform: str = Form("auto"),
+    max_games: int = Form(5),
+    depth: int = Form(15),
+):
+    try:
+        reports = batch_analyze(username, platform=platform, max_games=max_games)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+    if not reports:
+        return JSONResponse({"error": "No games could be analyzed"}, status_code=422)
+
+    avg = sum(r.overall_score for r in reports) / len(reports)
+    return {
+        "username": username,
+        "games_analyzed": len(reports),
+        "avg_score": round(avg, 2),
+        "max_score": round(max(r.overall_score for r in reports), 1),
+        "min_score": round(min(r.overall_score for r in reports), 1),
+        "clean_games":      sum(1 for r in reports if r.verdict == "clean"),
+        "suspicious_games": sum(1 for r in reports if r.verdict == "suspicious"),
+        "cheating_games":   sum(1 for r in reports if r.verdict == "likely cheating"),
+        "overall_verdict":  "likely cheating" if avg >= 60 else "suspicious" if avg >= 30 else "clean",
+        "feature_averages": _avg_features(reports),
+        "games": [
+            {
+                "game_id": r.game_id,
+                "username": r.username,
+                "color": r.color,
+                "overall_score": r.overall_score,
+                "verdict": r.verdict,
+                "flagged_moves": r.flagged_moves,
+                "features": [{"name": f.name, "score": f.score, "note": f.note} for f in r.features],
+            }
+            for r in reports
+        ],
+    }
