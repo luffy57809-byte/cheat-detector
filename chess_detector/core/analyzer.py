@@ -6,7 +6,7 @@ import re
 from dataclasses import dataclass, field
 from typing import Optional
 
-STOCKFISH_PATH = "/usr/games/stockfish"
+STOCKFISH_PATH = "./stockfish/stockfish-ubuntu-x86-64-avx2"
 
 @dataclass
 class MoveAnalysis:
