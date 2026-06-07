@@ -2,7 +2,7 @@ import os
 import json
 from pathlib import Path
 
-CHECKPOINT_DIR = "/workspaces/cheat-detector/.checkpoints"
+CHECKPOINT_DIR = "/tmp/.checkpoints"
 
 def save_checkpoint(username: str, platform: str, completed_game_ids: list, remaining_pgns: list):
     """Save progress so we can resume if something crashes."""
