@@ -78,6 +78,13 @@ main{max-width:900px;margin:0 auto;padding:3rem 2rem 6rem}
 .flagged-section{margin-bottom:2rem}
 .moves-wrap{display:flex;flex-wrap:wrap;gap:6px}
 .move-chip{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:var(--red);font-size:0.68rem;padding:3px 10px;border-radius:3px}
+
+.tabs{display:flex;gap:2px;margin-bottom:2rem;background:var(--border);border-radius:6px;padding:3px}
+.tab{flex:1;padding:0.6rem;text-align:center;font-size:0.75rem;cursor:pointer;border-radius:4px;color:var(--muted);font-family:var(--sans);font-weight:600;transition:all 0.15s}
+.tab.active{background:var(--card);color:var(--text)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
 .no-flags{font-size:0.75rem;color:var(--muted);font-style:italic}
 .spinner{display:inline-block;width:12px;height:12px;border:2px solid rgba(56,189,248,0.2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -96,6 +103,12 @@ footer{text-align:center;padding:2rem;font-size:0.65rem;color:var(--dim);border-
     <h1>Did they play like<br>a <em>human</em>?</h1>
     <p>Upload a PGN file or paste game notation to run a full suspicion analysis — centipawn loss, engine match rate, move timing, and more.</p>
   </div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('pgn')">Paste PGN</div>
+    <div class="tab" onclick="switchTab('player')">Player Lookup</div>
+  </div>
+
+  <div id="tab-pgn" class="tab-panel active">
   <div class="upload-card">
     <div class="card-label">input</div>
     <div class="form-row">
@@ -110,6 +123,24 @@ footer{text-align:center;padding:2rem;font-size:0.65rem;color:var(--dim);border-
     <textarea class="pgn-area" id="pgn-input" placeholder="...or paste PGN directly here"></textarea>
     <button class="btn-primary" id="analyze-btn" onclick="runAnalysis()"><span id="btn-label">Run Analysis</span></button>
   </div>
+  </div>
+  </div>
+
+  <div id="tab-player" class="tab-panel">
+  <div class="upload-card">
+    <div class="card-label">player lookup</div>
+    <div class="form-row">
+      <div class="form-group"><label>Username</label><input type="text" id="player-username" placeholder="e.g. MagnusCarlsen" autocomplete="off"></div>
+      <div class="form-group"><label>Platform</label><select id="player-platform"><option value="auto">Auto-detect</option><option value="chesscom">Chess.com</option><option value="lichess">Lichess</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Max games</label><select id="player-maxgames"><option value="3">3 — Quick</option><option value="5" selected>5 — Standard</option><option value="10">10 — Thorough</option></select></div>
+      <div class="form-group"><label>Analysis depth</label><select id="player-depth"><option value="10">10 — Fast</option><option value="15" selected>15 — Standard</option></select></div>
+    </div>
+    <button class="btn-primary" onclick="runPlayerAnalysis()"><span id="player-btn-label">Analyze Player</span></button>
+  </div>
+  </div>
+
   <div class="log-box" id="log-box"></div>
   <div id="results">
     <div class="verdict-banner" id="verdict-banner"><div class="verdict-dot"></div><div><div class="verdict-text" id="verdict-text"></div><div class="verdict-sub" id="verdict-sub"></div></div></div>
@@ -199,6 +230,39 @@ function renderResults(d){
   (d.games||[]).forEach(g=>{let fm=g.flagged_moves;if(typeof fm==="string"){try{fm=JSON.parse(fm)}catch{fm=[]}}if(Array.isArray(fm)&&fm.length)all.push(...fm.map(p=>g.game_id+" ply "+p))});
   wrap.innerHTML=all.length?`<div class="moves-wrap">${all.map(m=>`<span class="move-chip">${m}</span>`).join("")}</div>`:`<p class="no-flags">No flagged moves detected.</p>`;
   document.getElementById("results").scrollIntoView({behavior:"smooth"});
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', (tab==='pgn'&&i===0)||(tab==='player'&&i===1)));
+  document.getElementById('tab-pgn').classList.toggle('active', tab==='pgn');
+  document.getElementById('tab-player').classList.toggle('active', tab==='player');
+}
+
+async function runPlayerAnalysis() {
+  const username = document.getElementById('player-username').value.trim();
+  const platform = document.getElementById('player-platform').value;
+  const maxGames = document.getElementById('player-maxgames').value;
+  const depth = document.getElementById('player-depth').value;
+  if (!username) { log('No username provided.', 'err'); return; }
+  logBox.innerHTML = '';
+  document.getElementById('results').classList.remove('visible');
+  const btn = document.getElementById('player-btn-label');
+  btn.innerHTML = '<span class="spinner"></span> Fetching games...';
+  log('Fetching games for ' + username + ' from ' + platform + '...');
+  try {
+    const form = new FormData();
+    form.append('username', username);
+    form.append('platform', platform);
+    form.append('max_games', maxGames);
+    form.append('depth', depth);
+    log('Running Stockfish evaluation -- this may take a few minutes...');
+    const resp = await fetch(API_BASE + '/analyze-player', { method: 'POST', body: form });
+    if (!resp.ok) { const e = await resp.json().catch(()=>({})); throw new Error(e.detail||e.error||'Server error '+resp.status); }
+    const data = await resp.json();
+    renderResults(data);
+    log('Done. Score: ' + data.avg_score + '/100', 'ok');
+  } catch(e) { log('Error: ' + e.message, 'err'); }
+  btn.textContent = 'Analyze Player';
 }
 </script>
 </body>
