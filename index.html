@@ -256,6 +256,7 @@ async function runPlayerAnalysis() {
     form.append('max_games', maxGames);
     form.append('depth', depth);
     log('Running Stockfish evaluation -- this may take a few minutes...');
+    log('If this is the first request in a while, the server may take 30-60 seconds to wake up...', 'warn');
     const resp = await fetch(API_BASE + '/analyze-player', { method: 'POST', body: form });
     if (!resp.ok) { const e = await resp.json().catch(()=>({})); throw new Error(e.detail||e.error||'Server error '+resp.status); }
     const data = await resp.json();
