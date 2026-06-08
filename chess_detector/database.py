@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 from typing import Optional
 
-DB_PATH = os.environ.get("DB_PATH", os.path.join(os.path.dirname(__file__), "..", "cheat_detector.db"))
+DB_PATH = os.environ.get("DB_PATH", "/tmp/cheat_detector.db")
 
 def get_connection():
     conn = sqlite3.connect(DB_PATH)
