@@ -299,7 +299,7 @@ async function runPlayerAnalysis() {
 let lastResult = null;
 
 const _origRender = renderResults;
-renderResults = function(d) { lastResult = d; _origRender(d); }
+renderResults = function(d) { lastResult = d; saveResult(d); _origRender(d); }
 
 function exportJSON() {
   if (!lastResult) return;
@@ -323,6 +323,25 @@ function exportCSV() {
   a.download = (lastResult.username || 'analysis') + '_cheatmate.csv';
   a.click();
 }
+
+// Save and restore last result using sessionStorage
+function saveResult(data) {
+  try { sessionStorage.setItem('lastResult', JSON.stringify(data)); } catch(e) {}
+}
+
+function loadSavedResult() {
+  try {
+    const saved = sessionStorage.getItem('lastResult');
+    if (saved) {
+      const data = JSON.parse(saved);
+      renderResults(data);
+      log('Restored last analysis for ' + (data.username || 'player'), 'ok');
+    }
+  } catch(e) {}
+}
+
+// Load saved result on page load
+window.addEventListener('load', loadSavedResult);
 </script>
 </body>
 </html>
