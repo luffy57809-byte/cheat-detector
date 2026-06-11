@@ -1,4 +1,7 @@
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import FastAPI, UploadFile, File, Form, Request
+from fastapi.responses import JSONResponse
+from collections import defaultdict
+import time
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import tempfile, os
@@ -8,6 +11,19 @@ from chess_detector.export import export_player_summary
 from chess_detector.database import init_db
 
 app = FastAPI()
+
+# Simple in-memory rate limiter
+request_counts = defaultdict(list)
+RATE_LIMIT = 10  # max requests
+RATE_WINDOW = 60  # per 60 seconds
+
+def is_rate_limited(ip: str) -> bool:
+    now = time.time()
+    request_counts[ip] = [t for t in request_counts[ip] if now - t < RATE_WINDOW]
+    if len(request_counts[ip]) >= RATE_LIMIT:
+        return True
+    request_counts[ip].append(now)
+    return False
 
 app.add_middleware(
     CORSMiddleware,
@@ -20,6 +36,7 @@ init_db()
 
 @app.post("/analyze")
 async def analyze(
+    request: Request,
     pgn: str = Form(None),
     file: UploadFile = File(None),
     username: str = Form(None),
@@ -27,6 +44,10 @@ async def analyze(
     depth: int = Form(15),
     color: str = Form(None),
 ):
+    ip = request.client.host
+    if is_rate_limited(ip):
+        return JSONResponse({"error": "Too many requests. Please wait a minute."}, status_code=429)
+
     if file:
         contents = await file.read()
         pgn_text = contents.decode("utf-8", errors="replace")
